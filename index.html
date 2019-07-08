@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html class="full-height" lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dominion Energy Hyper Ledger</title>
+    <meta name="description" content="Material design landing page template built by TemplateFlip.com"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <link href="styles/main.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
+  </head>
+  <body id="top">
+    <header>
+      <!-- Navbar-->
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar" id="navbar">
+        <div class="container"><a class="navbar-brand" href="#"><strong>Hyper Ledger</strong></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+          <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item"><a class="nav-link active" href="#Assets">Assets</a></li>
+              <li class="nav-item"><a class="nav-link" href="#Participants">Participants</a></li>
+              <li class="nav-item"><a class="nav-link" href="#Transactions">Transactions</a></li>
+          </div>
+        </div>
+      </nav>
+      <!-- Intro Section-->
+      <section class="view hm-gradient" id="intro">
+        <div class="full-bg-img d-flex align-items-center">
+          <div class="container">
+            <div class="row no-gutters">
+              <div class="col-md-10 col-lg-6 text-center text-md-left margins">
+                <div class="white-text">
+                  <div class="wow fadeInLeft" data-wow-delay="0.3s">
+                    <h1 class="h1-responsive font-bold mt-sm-5">Why Hyper Ledger?</h1>
+                    <div class="h6">
+                      Hyperledger Fabric is delivering a blockchain platform designed to allow the exchange of an asset or the state of an asset to be consented upon, maintained, and viewed by all parties in a permissioned group. A key characteristic of Hyperledger Fabric is that the asset is defined digitally, with all participants simply agreeing on its representation/characterization. As such, Hyperledger Fabric can support a broad range of asset types; ranging from the tangible (real estate and hardware) to the intangible (contracts and intellectual property).
+                    </div>
+                  </div><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </header>
+    <div id="content">
+
+<section class="view text-center" id="Assets" style="background-image:url('img/Corporate.jpg');">
+  <div class="rgba-red-strong py-5">
+      <h2 class="h1 text-white pt-2 pb-3">Assets</h2>
+      <div class = "container"> 
+        <div class = "row">
+            
+            <div class = "col py-5">
+                <div class="card px-5 py-3 wow fadeInLeft" style="width: 18rem;">
+                  <h2 class = "h2 py-2"> Query Asset </h2>
+                  <div class="card-body">
+                    <form>
+                      <div class="form-group">
+                        <label for="queryAsset">Asset ID</label>
+                        <input required type="text" class="form-control" id="queryAsset" aria-describedby="emailHelp" placeholder="Enter Asset ID">
+                      </div>
+                      <button id="GetAssets" type="button" class="btn btn-primary">Query</button>
+                    </form>
+                  </div>
+                </div>
+
+            </div>
+ 
+            <div class = "col" align = "center">
+                <div class="card  px-5   py-3 wow fadeInRight" style="width: 30rem;">
+                  <h2 class = "h2 py-2"> Post New Asset </h2>
+                  <div class="card-body">
+                    <form>
+                      <div class="form-group">
+                        <label for="postAssetId">Asset ID</label>
+                        <input required type="text" class="form-control" id="postAssetId" placeholder="Enter Asset ID">
+                      </div>
+                      <div class="form-group">
+                        <label  for="postAssetOwner">Asset Owner</label>
+                        <input required type="text" class="form-control" id="postAssetOwner" placeholder="Enter Asset Owner">
+                      </div>
+                      <div class="form-group">
+                        <label class = "w-100 py-1 text-muted small" id = "upload-message" >File: None</label>
+                        <label class = "w-100 py-1 text-muted small" id = "upload-hash" >Hash: None</label>
+
+                        <input required type="file" name="file" id="file" class="inputfile" />
+                        <label class = "btn btn-info" for="file">Upload Asset</label>
+                      </div>
+                      <button id = "PostAssets" type="submit" class="btn btn-primary">Post Asset</button>
+                    </form>
+                  </div>
+                </div>
+            </div>
+
+        </div>
+      </div>
+    
+    </div>
+  </div>
+</section>
+<section class="text-center" id="Participants" style="background-image:url('img/brainstorm.png');">
+  <div class="rgba-green-strong py-5">
+      <h2 class="h1 text-white pt-2 pb-3">Participants</h2>
+      <div class = "container"> 
+        <div class = "row">
+            
+            <div class = "col py-5">
+                <div class="card  px-5  py-3 wow fadeInLeft" data-wow-delay="0.3s" style="width: 18rem;">
+                  <h2 class = "h2 py-2"> Query Participant </h2>
+                  <div class="card-body">
+                    <form>
+                      <div class="form-group">
+                        <label for="queryParticipant">Participant ID</label>
+                        <input required type="text" class="form-control" id="queryParticipant" placeholder="Enter Employee ID">
+                      </div>
+                      <button id = "GetParticipants" type="button" class="btn btn-primary">Query</button>
+                    </form>
+                  </div>
+                </div>
+
+            </div>
+ 
+            <div class = "col" align = "center">
+                <div class="card  px-5  py-3 wow fadeInRight" data-wow-delay="0.3s" style="width: 30rem;">
+                  <h2 class = "h2 py-2"> Post New Participant </h2>
+                  <div class="card-body">
+                    <form>
+                      <div class="form-group">
+                        <label for="postParticipantId">Participant ID</label>
+                        <input required type="text" class="form-control" id="postParticipantId" placeholder="Enter Employee ID">
+                      </div>
+                      <div class="form-group">
+                        <label for="postParticipantName">Participant First Name</label>
+                        <input required type="text" class="form-control" id="postParticipantName" placeholder="Enter Employee First Name">
+                      </div>
+                      <div class="form-group">
+                        <label for="postParticipantLast">Participant Last Name</label>
+                        <input required type="text" class="form-control" id="postParticipantLast" placeholder="Enter Employee Last Name">
+                      </div>
+                      <button id = "PostParticipants" type="submit" class="btn btn-primary">Post Participant</button>
+                    </form>
+                  </div>
+                </div>
+            </div>
+
+        </div>
+      </div>
+    
+    </div>
+  </div>
+</section>
+<section class="text-center" id="Transactions" style="background-image:url('img/tech.jpg');">
+  <div class="rgba-blue-strong py-5">
+      <h2 class="h1 text-white pt-2 pb-3">Transactions</h2>
+      <div class = "container"> 
+            <div class = "row justify-content-center align-items-center">
+                <div class="center-block card px-5  py-3 wow fadeIn" data-wow-delay="0.3s" style="width: 18rem;">
+                  <h2 class = "h2 py-2"> Query Transactions </h2>
+                  <div class="card-body">
+                    <form>
+                      <div class="form-group">
+                        <label for="queryTransaction">Transaction ID</label>
+                        <input type="text" class="form-control" id="queryTransaction" placeholder="Enter Transaction ID">
+                      </div>
+                      <button id = "GetTransactions" type="button" class="btn btn-primary">Query</button>
+                    </form>
+                  </div>
+                </div>
+            </div>
+      </div>
+    
+    </div>
+  </div>
+</section>
+
+<!-- Modal -->
+  <div class="modal fade" style = "width: auto" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div id = "modal-table-holder" class="modal-body">
+          <table  id="table-loader" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+              
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+    <script type="text/javascript" src="scripts/main.js"></script>
+  </body>
+</html>
