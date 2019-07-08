@@ -112,11 +112,35 @@ function displayQuery(queryType, queryID, headers, title){
 			    'X-Access-Token': 'x5MrG7gLJNr6fCtc7feimXekrIkePpY6jR09fS8oUKizTHHPu4zcETxWxClH2khN'
 			  }
 			}).then(res => res.json())
-			.then(response => console.log(response) )
+			.then(response => displayQueryResponse(response, queryType) )
 			.catch(error =>  console.log(error));
 }
 
-function sendData(url, data){
+function displayQueryResponse(responseObject, displayLocation){
+	if(responseObject != null){
+		if(displayLocation == "AuditAsset" ){
+
+			var n = (responseObject.owner).search("#");
+			var ownerName = (responseObject.owner).substring(n + 1, (responseObject.owner).length);
+
+			$("#asset-owner").text("Owner: " + ownerName);
+			$("#asset-hash").text("Hash: " + responseObject.value);
+
+			$("#asset-owner").fadeIn();
+			$("#asset-hash").fadeIn();
+		}
+		else if(displayLocation == "Participants"){
+
+		}
+		else{
+
+		}
+	}
+}
+
+function sendData(url, data, displayLocation){
+	var responseObject = null;
+
 	fetch(url, {
 			  method: 'POST', // or 'PUT'
 			  body: JSON.stringify(data), // data can be `string` or {object}!
@@ -152,7 +176,7 @@ $(document).on('click','#PostAssets',function(e){
 			"value": assetFile
 		} 
 
-		sendData("http://domledgerfabric.eastus.cloudapp.azure.com:3000/api/AuditAsset", dataToSend)
+		sendData("http://domledgerfabric.eastus.cloudapp.azure.com:3000/api/AuditAsset", dataToSend, "Assets")
 	}
 	
 
