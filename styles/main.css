@@ -50,3 +50,6 @@ input[type = "file"]{
   display: none;
 }
 
+.fullFormGroup {
+  margin: 0 auto !important;
+}

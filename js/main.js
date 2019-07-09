@@ -1,11 +1,14 @@
 
 var oldTable = null;
 
+var currentlyPosting = false;
+
 $(document).ready(function(e){
 	new WOW().init();
 })
 
-function sha256(ascii) {
+
+function sha256(ascii) { //Code found online
 	function rightRotate(value, amount) {
 		return (value>>>amount) | (value<<(32 - amount));
 	};
@@ -102,9 +105,9 @@ function sha256(ascii) {
 	return result;
 };
 
-function displayQuery(queryType, queryID, headers, title){
+function displayQuery(queryType, queryID, headers, title, queryButton){
 
-	//$('#modalTitle').text(title);
+	queryButton.text("Querying...");
 
 	fetch("http://domledgerfabric.eastus.cloudapp.azure.com:3000/api/" + queryType + "/" + queryID, {
 			  method: 'GET', // or 'PUT'
@@ -112,45 +115,67 @@ function displayQuery(queryType, queryID, headers, title){
 			    'X-Access-Token': 'x5MrG7gLJNr6fCtc7feimXekrIkePpY6jR09fS8oUKizTHHPu4zcETxWxClH2khN'
 			  }
 			}).then(res => res.json())
-			.then(response => displayQueryResponse(response, queryType) )
-			.catch(error =>  console.log(error));
+			.then(response => {
+				displayQueryResponse(response, queryType); 
+				queryButton.text("Success"); 
+				setTimeout(function(){ queryButton.text("Query");}, 2000);
+			})
+			.catch(error =>  {
+				queryButton.text("Error"); 
+				setTimeout(function(){ queryButton.text("Query");}, 2000);
+			});
 }
 
 function displayQueryResponse(responseObject, displayLocation){
+	console.log(responseObject);
+
 	if(responseObject != null){
 		if(displayLocation == "AuditAsset" ){
 
 			var n = (responseObject.owner).search("#");
 			var ownerName = (responseObject.owner).substring(n + 1, (responseObject.owner).length);
 
-			$("#asset-owner").text("Owner: " + ownerName);
-			$("#asset-hash").text("Hash: " + responseObject.value);
+			$("#asset-owner").val(ownerName);
+			$("#asset-hash").val(responseObject.value);
 
-			$("#asset-owner").fadeIn();
-			$("#asset-hash").fadeIn();
+
 		}
-		else if(displayLocation == "Participants"){
-
+		else if(displayLocation == "AuditParticipant"){
+			$("#participant-name").val(responseObject.firstName);
+			$("#participant-last").val(responseObject.lastName);
 		}
 		else{
-
+			$("#trans-asset").val(responseObject.asset);
+			$("#trans-value").val(responseObject.newValue);
+			$("#trans-time").val(responseObject.timestamp);
 		}
 	}
 }
 
-function sendData(url, data, displayLocation){
-	var responseObject = null;
+function sendData(url, data, postButton){
+	if(currentlyPosting == false){
+		currentlyPosting = true;
+		postButton.text("Posting...");
+		
+		fetch(url, {
+				  method: 'POST', // or 'PUT'
+				  body: JSON.stringify(data), // data can be `string` or {object}!
+				  headers:{
+				    'Content-Type': 'application/json',
+				    'X-Access-Token': 'x5MrG7gLJNr6fCtc7feimXekrIkePpY6jR09fS8oUKizTHHPu4zcETxWxClH2khN'
+				  }
+				}).then(res => res.json())
+				.then(response => {
+					postButton.text("Success");
+					setTimeout(function(){ postButton.text("Post"); currentlyPosting = false; }, 2000);
 
-	fetch(url, {
-			  method: 'POST', // or 'PUT'
-			  body: JSON.stringify(data), // data can be `string` or {object}!
-			  headers:{
-			    'Content-Type': 'application/json',
-			    'X-Access-Token': 'x5MrG7gLJNr6fCtc7feimXekrIkePpY6jR09fS8oUKizTHHPu4zcETxWxClH2khN'
-			  }
-			}).then(res => res.json())
-			.then(response => console.log("Success") )
-			.catch(error => console.log("Error Posting") );
+				} )
+				.catch(error => {
+					postButton.text("Error");
+					setTimeout(function(){ postButton.text("Post"); currentlyPosting = false; }, 2000);
+				} );
+		
+	}
 }
 
 function checkNotEmpty(element){
@@ -176,9 +201,8 @@ $(document).on('click','#PostAssets',function(e){
 			"value": assetFile
 		} 
 
-		sendData("http://domledgerfabric.eastus.cloudapp.azure.com:3000/api/AuditAsset", dataToSend, "Assets")
+		sendData("http://domledgerfabric.eastus.cloudapp.azure.com:3000/api/AuditAsset", dataToSend, $("#PostAssets"))
 	}
-	
 
 })
 
@@ -188,7 +212,7 @@ $(document).on('click','#PostParticipants',function(e){
 	e.preventDefault();
 
 	if( checkNotEmpty($("#postParticipantId")) && checkNotEmpty($("#postParticipantName")) && checkNotEmpty($("#postParticipantLast"))){
-		
+		console.log("Inside");
 		dataToSend = {
 			"$class": "org.dom.auditnetwork.AuditParticipant",
 			"participantId": $("#postParticipantId").val(),
@@ -196,7 +220,7 @@ $(document).on('click','#PostParticipants',function(e){
 			"lastName": $("#postParticipantLast").val()
 		}
 
-		sendData("http://domledgerfabric.eastus.cloudapp.azure.com:3000/api/AuditParticipant", dataToSend)
+		sendData("http://domledgerfabric.eastus.cloudapp.azure.com:3000/api/AuditParticipant", dataToSend, $("#PostParticipants"))
 	}
 })
 
@@ -218,18 +242,18 @@ $(document).on('change','#file',function(event){
 $(document).on('click','#GetAssets',function(){
 	console.log("Getting Asset");
 	if(checkNotEmpty( $("#queryAsset")) )
-		displayQuery("AuditAsset", $("#queryAsset").val(), ["assetId", "owner", "value"], "Selected Assets");
+		displayQuery("AuditAsset", $("#queryAsset").val(), ["assetId", "owner", "value"], "Selected Assets", $("#GetAssets"));
 	
 })
 
 $(document).on('click','#GetParticipants',function(){
 	console.log("Getting Participants");
 	if(checkNotEmpty( $("#queryParticipant")) )
-		displayQuery("AuditParticipant", $("#queryParticipant").val(), ["participantId", "firstName", "lastName"], "Selected Partcipants");
+		displayQuery("AuditParticipant", $("#queryParticipant").val(), ["participantId", "firstName", "lastName"], "Selected Partcipants", $("#GetParticipants"));
 })
 
 $(document).on('click','#GetTransactions',function(){
 	console.log("Getting Transactions");
 	if(checkNotEmpty( $("#queryTransaction")) )
-		displayQuery("AuditTransaction", $("#queryTransaction").val(), ["asset", "newValue", "transactionId"], "Selected Transactions");
+		displayQuery("AuditTransaction", $("#queryTransaction").val(), ["asset", "newValue", "transactionId"], "Selected Transactions", $("#GetTransactions"));
 })
